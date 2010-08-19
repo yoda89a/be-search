@@ -1,11 +1,17 @@
 <?php
 /*
- * Copyright (c) 2010, webvariants GbR, http://www.webvariants.de
+ * Copyright (C) 2009 REDAXO
  *
- * This file is released under the terms of the MIT license. You can find the
- * complete text in the attached LICENSE file or online at:
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License Version 2 as published by the
+ * Free Software Foundation.
+ */
+
+/**
+ * Backend Search Addon
  *
- * http://www.opensource.org/licenses/mit-license.php
+ * @author  markus[dot]staab[at]redaxo[dot]de Markus Staab
+ * @package redaxo4
  */
 
 $REX['ADDON']['install']['be_search'] = 0;

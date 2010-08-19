@@ -1,18 +1,11 @@
 <?php
 /*
- * Copyright (C) 2009 REDAXO
+ * Copyright (c) 2010, webvariants GbR, http://www.webvariants.de
  *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License Version 2 as published by the
- * Free Software Foundation.
- */
-
-/**
- * Backend Search Addon
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
  *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * @package redaxo4
+ * http://www.opensource.org/licenses/mit-license.php
  */
 
 $REX['ADDON']['install']['be_search'] = 0;
-// ERRMSG IN CASE: $REX['ADDON']['installmsg']['be_search'] = "Deinstallation fehlgeschlagen weil...";

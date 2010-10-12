@@ -18,7 +18,7 @@ function rex_a256_search_structure($params)
 {
 	global $REX, $I18N;
 
-	if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('be_search[mediapool]')) {
+	if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('be_search[structure]')) {
 		return $params['subject'];
 	}
 
@@ -33,7 +33,7 @@ function rex_a256_search_structure($params)
 	$category_id  = sly_request('category_id', 'int');
 	$article_id   = sly_request('article_id', 'int');
 	$clang        = sly_request('clang', 'int');
-	$ctype        = sly_request('ctype', 'int');
+	$slot         = sly_request('slot', 'int');
 	$function     = sly_request('function', 'string');
 
 	// ------------ Parameter
@@ -167,6 +167,8 @@ function rex_a256_search_structure($params)
 		$add_homepage = false;
 	}
 
+	require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'class'.DIRECTORY_SEPARATOR.'rex_category_select.php';
+
 	$category_select = new rex_category_select(false, false, true, $add_homepage);
 	$category_select->setName($select_name);
 	$category_select->setId('rex-a256-category-id');
@@ -184,7 +186,7 @@ function rex_a256_search_structure($params)
 				<input type="hidden" name="category_id" value="'.$category_id.'" />
 				<input type="hidden" name="article_id" value="'.$article_id.'" />
 				<input type="hidden" name="clang" value="'.$clang.'" />
-				<input type="hidden" name="ctype" value="'.$ctype.'" />
+				<input type="hidden" name="slot" value="'.$slot.'" />
 				<input type="hidden" name="a256_clang" value="'.$clang.'" />
 
 				<div class="rex-fl-lft">

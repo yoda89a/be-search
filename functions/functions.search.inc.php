@@ -62,6 +62,6 @@ function rex_a256_extensions_handler($params)
 function rex_be_search_css_add($params)
 {
 	$layout = sly_Core::getLayout();
-	$layout->addCSSFile('css/be_search/be_search.css');
-	$layout->addCSSFile('css/be_search/be_search_ie_lte_7.css', 'all', 'if lte IE 7');
+	$layout->addCSSFile('../data/dyn/public/be_search/be_search.css');
+	$layout->addCSSFile('../data/dyn/public/be_search/be_search_ie_lte_7.css', 'all', 'if lte IE 7');
 }

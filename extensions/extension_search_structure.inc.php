@@ -191,11 +191,11 @@ function rex_a256_search_structure($params)
 
 				<div class="rex-fl-lft">
 					<label for="rex-a256-article-name">'.$I18N->msg('be_search_article_name').'</label>
-					<input class="rex-form-text" type="text" name="a256_article_name" id="rex-a256-article-name" value="'.sly_html(stripslashes($a256_article_name)).'"'.rex_tabindex().' />
+					<input class="rex-form-text" type="text" name="a256_article_name" id="rex-a256-article-name" value="'.sly_html(stripslashes($a256_article_name)).'" />
 
 					<label for="rex-a256-article-id">'.$I18N->msg('be_search_article_id').'</label>
-					<input class="rex-form-text" type="text" name="a256_article_id" id="rex-a256-article-id"'.rex_tabindex().' />
-					<input class="rex-form-submit" type="submit" style="margin-left: 0px;" name="a256_start_search" value="'.$I18N->msg('be_search_start').'"'.rex_tabindex().' />
+					<input class="rex-form-text" type="text" name="a256_article_id" id="rex-a256-article-id" />
+					<input class="rex-form-submit" type="submit" style="margin-left: 0px;" name="a256_start_search" value="'.$I18N->msg('be_search_start').'" />
 				</div>
 
 				<div class="rex-fl-rght">

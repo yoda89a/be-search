@@ -29,10 +29,9 @@ class rex_category_select extends rex_select
 
 	public function addCatOption($cat)
 	{
-		global $REX;
 		if (empty($cat)) return;
 
-		if (!$this->check_perms || $this->check_perms && $REX['USER']->hasCategoryPerm($cat->getId())) {
+		if (!$this->check_perms || $this->check_perms && checkCategoryPerm($cat->getId())) {
 			$this->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
 			$children = $cat->getChildren($this->ignore_offlines, $this->clang);
 			

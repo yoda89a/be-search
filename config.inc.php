@@ -16,10 +16,6 @@
 
 if (!sly_Core::isBackend()) return;
 
-$REX['EXTPERM'][] = 'be_search[mediapool]';
-$REX['EXTPERM'][] = 'be_search[structure]';
-
-
 $I18N->appendFile(SLY_INCLUDE_PATH.'/addons/be_search/lang/');
 
 require_once SLY_INCLUDE_PATH.'/addons/be_search/functions/functions.search.inc.php';

@@ -93,7 +93,7 @@ function rex_a256_search_structure($params)
 		if ($foundRows == 1)
 		{
 			$OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
-			if ($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))
+			if (checkCategoryPerm($OOArt->getCategoryId()))
 			{
 				header('Location:'.sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)));
 				exit();
@@ -110,7 +110,7 @@ function rex_a256_search_structure($params)
 				$OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
 				$label = $OOArt->getName();
 
-				if ($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))
+				if (checkCategoryPerm($OOArt->getCategoryId()))
 				{
 					if ($REX['USER']->hasPerm('advancedMode[]')) $label .= ' ['.$search->getValue('id').']';
 

@@ -14,9 +14,8 @@
  * @package redaxo4
  */
 
-function rex_a256_search_structure($params)
-{
-	global $REX, $I18N;
+function rex_a256_search_structure($params) {
+	global $REX;
 
 	if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('be_search[structure]')) {
 		return $params['subject'];
@@ -37,87 +36,75 @@ function rex_a256_search_structure($params)
 	$function     = sly_request('function', 'string');
 
 	// ------------ Parameter
-	$a256_article_id        = sly_request('a256_article_id'  , 'int');
-	$a256_clang             = sly_request('a256_clang'       , 'int');
+	$a256_article_id        = sly_request('a256_article_id', 'int');
+	$a256_clang             = sly_request('a256_clang', 'int');
 	$a256_article_name      = sly_request('a256_article_name', 'string');
 	$a256_article_name_post = sly_post('a256_article_name', 'string');
 	$mode                   = sly_request('mode', 'string');
 
 	// ------------ Suche via ArtikelId
-	if ($a256_article_id != 0)
-	{
+	if ($a256_article_id != 0) {
 		$OOArt = OOArticle::getArticleById($a256_article_id, $a256_clang);
-		if (OOArticle::isValid($OOArt))
-		{
+
+		if (OOArticle::isValid($OOArt)) {
 			header('Location:'. sprintf($editUrl, $a256_article_id, $a256_clang, urlencode($a256_article_name)));
 			exit();
 		}
 	}
 
 	// Auswahl eines normalen Artikels => category holen
-	if ($article_id != 0)
-	{
+	if ($article_id != 0) {
 		$OOArt = OOArticle::getArticleById($article_id, $clang);
 		// Falls Artikel gerade geloescht wird, gibts keinen OOArticle
-		if($OOArt) $category_id = $OOArt->getCategoryId();
+		if ($OOArt) $category_id = $OOArt->getCategoryId();
 	}
 
 	// ------------ Suche via ArtikelName
 	// hier nur den post artikel namen abfragen,
 	// da sonst bei vorherigen headerweiterleitungen
 	// auch gesucht wuerde
-	if ($a256_article_name_post != '')
-	{
-		$qry = '
-			SELECT id
-			FROM '. $REX['TABLE_PREFIX'] .'article
-			WHERE
-			clang = '. $a256_clang .' AND
-			(
-			name LIKE "%'. $a256_article_name .'%" OR
-			catname LIKE "%'. $a256_article_name .'%"
-			)';
+
+	if ($a256_article_name_post != '') {
+		$qry = 'SELECT id FROM '.$REX['TABLE_PREFIX'].'article '.
+			'WHERE clang = '.$a256_clang.' AND '.
+			'(name LIKE "%'.$a256_article_name.'%" OR catname LIKE "%'.$a256_article_name.'%")';
+
 		$addonService = sly_Service_Factory::getService('Addon');
-		switch ($addonService->getProperty('be_search', 'searchmode', 'local'))
-		{
-			case 'local':
-				if ($category_id != 0) $qry .= ' AND path LIKE "%|'. $category_id .'|%"';
+		$mode         = $addonService->getProperty('be_search', 'searchmode', 'local');
+
+		if ($mode == 'local' && $category_id != 0) {
+			$qry .= ' AND path LIKE "%|'.$category_id.'|%"';
 		}
 
 		$search = new rex_sql();
-		//    $search->debugsql = true;
 		$search->setQuery($qry);
 		$foundRows = $search->getRows();
 
 		// Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
-		if ($foundRows == 1)
-		{
+		if ($foundRows == 1) {
 			$OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
-			if (checkCategoryPerm($OOArt->getCategoryId()))
-			{
+
+			if (checkCategoryPerm($OOArt->getCategoryId())) {
 				header('Location:'.sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)));
 				exit();
 			}
 		}
 		// Mehrere Suchtreffer, Liste anzeigen
-		else if ($foundRows > 0)
-		{
+		else if ($foundRows > 0) {
 			$needle         = sly_html($a256_article_name);
 			$search_result .= '<ul class="a256-search-result">';
 
-			for ($i = 0; $i < $foundRows; $i++)
-			{
+			for ($i = 0; $i < $foundRows; $i++) {
 				$OOArt = OOArticle::getArticleById($search->getValue('id'), $a256_clang);
 				$label = $OOArt->getName();
 
-				if (checkCategoryPerm($OOArt->getCategoryId()))
-				{
+				if (checkCategoryPerm($OOArt->getCategoryId())) {
 					if ($REX['USER']->hasPerm('advancedMode[]')) $label .= ' ['.$search->getValue('id').']';
 
 					$s     = '';
 					$first = true;
-					foreach ($OOArt->getParentTree() as $treeItem)
-					{
+
+					foreach ($OOArt->getParentTree() as $treeItem) {
 						$treeLabel = $treeItem->getName();
 
 						if ($REX['USER']->hasPerm('advancedMode[]')) {
@@ -125,10 +112,10 @@ function rex_a256_search_structure($params)
 						}
 
 						$prefix = ': ';
-						if ($first)
-						{
+
+						if ($first) {
 							$prefix = '';
-							$first = false;
+							$first  = false;
 						}
 
 						$treeLabel = sly_html($treeLabel);
@@ -138,10 +125,10 @@ function rex_a256_search_structure($params)
 					}
 
 					$prefix = ': ';
-					if ($first)
-					{
+
+					if ($first) {
 						$prefix = '';
-						$first = false;
+						$first  = false;
 					}
 
 					$label = sly_html($label);
@@ -150,24 +137,26 @@ function rex_a256_search_structure($params)
 					$s .= '<li>'.$prefix.'<a href="'.sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)).'">'.$label.' </a></li>';
 					$search_result .= '<li><ul class="a256-search-hit">'.$s.'</ul></li>';
 				}
+
 				$search->next();
 			}
+
 			$search_result .= '</ul>';
 		}
 		else {
-			$message = rex_warning($I18N->msg('be_search_no_results'));
+			$message = rex_warning(t('be_search_no_results'));
 		}
 	}
 
 	$select_name  = 'category_id';
 	$add_homepage = true;
-	if ($mode == 'edit' || $mode == 'meta')
-	{
+
+	if ($mode == 'edit' || $mode == 'meta') {
 		$select_name  = 'article_id';
 		$add_homepage = false;
 	}
 
-	require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'class'.DIRECTORY_SEPARATOR.'rex_category_select.php';
+	require_once SLY_INCLUDE_PATH.'/addons/be_search/class/rex_category_select.php';
 
 	$category_select = new rex_category_select(false, false, true, $add_homepage);
 	$category_select->setName($select_name);
@@ -181,25 +170,25 @@ function rex_a256_search_structure($params)
 	'<div class="rex-form">
 		<form action="index.php" method="post">
 			<fieldset>
-				<input type="hidden" name="page" value="'.$page.'" />
-				<input type="hidden" name="mode" value="'.$mode.'" />
+				<input type="hidden" name="page" value="'.sly_html($page).'" />
+				<input type="hidden" name="mode" value="'.sly_html($mode).'" />
 				<input type="hidden" name="category_id" value="'.$category_id.'" />
 				<input type="hidden" name="article_id" value="'.$article_id.'" />
 				<input type="hidden" name="clang" value="'.$clang.'" />
-				<input type="hidden" name="slot" value="'.$slot.'" />
+				<input type="hidden" name="slot" value="'.sly_html($slot).'" />
 				<input type="hidden" name="a256_clang" value="'.$clang.'" />
 
 				<div class="rex-fl-lft">
-					<label for="rex-a256-article-name">'.$I18N->msg('be_search_article_name').'</label>
-					<input class="rex-form-text" type="text" name="a256_article_name" id="rex-a256-article-name" value="'.sly_html(stripslashes($a256_article_name)).'" />
+					<label for="rex-a256-article-name">'.t('be_search_article_name').'</label>
+					<input class="rex-form-text" type="text" name="a256_article_name" id="rex-a256-article-name" value="'.sly_html($a256_article_name).'" />
 
-					<label for="rex-a256-article-id">'.$I18N->msg('be_search_article_id').'</label>
+					<label for="rex-a256-article-id">'.t('be_search_article_id').'</label>
 					<input class="rex-form-text" type="text" name="a256_article_id" id="rex-a256-article-id" />
-					<input class="rex-form-submit" type="submit" style="margin-left: 0px;" name="a256_start_search" value="'.$I18N->msg('be_search_start').'" />
+					<input class="rex-form-submit" type="submit" style="margin-left: 0px;" name="a256_start_search" value="'.t('be_search_start').'" />
 				</div>
 
 				<div class="rex-fl-rght">
-					<label for="rex-a256-category-id">'.$I18N->msg('be_search_quick_navi').'</label>'.
+					<label for="rex-a256-category-id">'.t('be_search_quick_navi').'</label>'.
 					$category_select->get().'
 				</div>
 			</fieldset>
@@ -208,11 +197,7 @@ function rex_a256_search_structure($params)
 
 	$search_bar = $message.
 	'<div id="rex-a256-searchbar" class="rex-toolbar rex-toolbar-has-form">
-		<div class="rex-toolbar-content">
-			'.$form.'
-			'.$search_result.'
-			<div class="rex-clearer"></div>
-		</div>
+		<div class="rex-toolbar-content">'.$form.$search_result.'</div>
 	</div>';
 
 	return $search_bar.$params['subject'];

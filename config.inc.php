@@ -16,8 +16,6 @@
 
 if (!sly_Core::isBackend()) return;
 
-$I18N->appendFile(SLY_INCLUDE_PATH.'/addons/be_search/lang/');
-
+sly_Core::getI18N()->appendFile(SLY_INCLUDE_PATH.'/addons/be_search/lang/');
 require_once SLY_INCLUDE_PATH.'/addons/be_search/functions/functions.search.inc.php';
-
-rex_register_extension('PAGE_CHECKED', 'rex_a256_extensions_handler');
+sly_Core::dispatcher()->register('PAGE_CHECKED', 'rex_a256_extensions_handler');

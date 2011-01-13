@@ -29,10 +29,8 @@ div#rex-a256-searchbar form {
 	}
 }
 
-div.rex-form fieldset.rex-form-col-2 div.rex-form-row {
-	p#a256-media-search label { width: 140px; }
-	p input#a256-media-name   { width: 120px; }
-}
+#a256_media_name { width: 400px; }
+#a256_submit { margin-left: 0; }
 
 div#rex-a256-searchbar {
 	ul.a256-search-result {
@@ -47,6 +45,10 @@ div#rex-a256-searchbar {
 				padding-bottom: 0px;
 			}
 		}
+	}
+
+	.rex-toolbar-content {
+		padding: 7px !important;
 	}
 
 	span.a256-search-hit {

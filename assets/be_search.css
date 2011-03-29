@@ -29,7 +29,7 @@
 	}
 }
 
-div.rex-form fieldset.rex-form-col-2 div.rex-form-row {
+.rex-form fieldset.rex-form-col-2 .rex-form-row {
 	#a256-media-search label { width: 140px; }
 	#a256-media-name   { width: 120px; }
 }

@@ -10,29 +10,28 @@
  * @package redaxo4
  */
 
-div#rex-a256-searchbar form {
+#rex-a256-searchbar form {
 	label          { font-weight: bold; margin-right:5px; }
 	input.rex-sbmt { line-height: 1em;  }
 
-	input#rex-a256-article-name {
+	#rex-a256-article-name {
 		width: 120px;
 		margin-right: 5px;
 	}
 
-	input#rex-a256-article-id {
+	#rex-a256-article-id {
 		width: 30px;
 		margin-right: 5px;
 	}
 
-	select#rex-a256-category-id {
+	#rex-a256-category-id {
 		max-width: 297px;
 	}
 }
+p#a256-media-search label { width: 140px; }
+p input#a256-media-name   { width: 120px; }
 
-#a256_media_name { width: 400px; }
-#a256_submit { margin-left: 0; }
-
-div#rex-a256-searchbar {
+#rex-a256-searchbar {
 	ul.a256-search-result {
 		padding: 10px 0 0 0;
 

@@ -8,7 +8,7 @@ class rex_category_select extends rex_select
 	public $clang;
 	public $check_perms;
 
-	public function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
+	public function __construct($ignore_offlines = false, $clang = null, $check_perms = true, $add_homepage = true)
 	{
 		$this->ignore_offlines = (boolean) $ignore_offlines;
 		$this->clang           = $clang;
@@ -18,7 +18,7 @@ class rex_category_select extends rex_select
 			$this->addOption('Homepage', 0);
 		}
 		
-		$cats = OOCategory::getRootCategories($ignore_offlines, $clang);
+		$cats = sly_Util_Category::getRootCategories($ignore_offlines, $clang);
 
 		if ($cats) {
 			foreach ($cats as $cat) $this->addCatOption($cat);

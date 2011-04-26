@@ -158,7 +158,7 @@ function rex_a256_search_structure($params) {
 
 	require_once SLY_INCLUDE_PATH.'/addons/be_search/class/rex_category_select.php';
 
-	$category_select = new rex_category_select(false, false, true, $add_homepage);
+	$category_select = new rex_category_select(false, null, true, $add_homepage);
 	$category_select->setName($select_name);
 	$category_select->setId('rex-a256-category-id');
 	$category_select->setSize('1');

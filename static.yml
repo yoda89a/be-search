@@ -1,4 +1,4 @@
-author: "Markus Staab"
-supportpage: "forum.redaxo.de"
+author: "Markus Staab Christian Zozmann"
+supportpage: "www.sallycms.de"
 extperm: ['be_search[mediapool]','be_search[structure]']
-sally: ["0.3", "0.4"]
+sally: ["0.4"]

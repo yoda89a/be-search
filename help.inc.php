@@ -17,9 +17,9 @@
 ?>
 <h3 class="rex-hl3">Backend Search Addon</h3>
 
-<p class="rex-tx1">Addon zur erweiterten und schnelleren Suche von Artikeln,
+<p>Addon zur erweiterten und schnelleren Suche von Artikeln,
 Kategorien und Medien im Backend.</p>
 
-<p class="rex-tx1">Die Suchergebnisse beziehen sich immer auf die aktuell
+<p>Die Suchergebnisse beziehen sich immer auf die aktuell
 ausgewählte Kategorie und deren Unterkategorien. Außerdem werden die
 Berechtigungen berücksichtigt.</p>

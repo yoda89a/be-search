@@ -1,7 +1,5 @@
 <?php
 
-require_once 'rex_select.php';
-
 class rex_category_select extends rex_select
 {
 	public $ignore_offlines;
@@ -30,8 +28,10 @@ class rex_category_select extends rex_select
 	public function addCatOption($cat)
 	{
 		if (empty($cat)) return;
+		
+		$user = sly_Util_User::getCurrentUser();
 
-		if (!$this->check_perms || $this->check_perms && checkCategoryPerm($cat->getId())) {
+		if (!$this->check_perms || $this->check_perms && sly_Util_Category::hasPermissionOnCategory($user, $cat->getId())) {
 			$this->addOption($cat->getName(), $cat->getId(), $cat->getId(), $cat->getParentId());
 			$children = $cat->getChildren($this->ignore_offlines, $this->clang);
 			

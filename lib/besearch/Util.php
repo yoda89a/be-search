@@ -18,8 +18,8 @@ abstract class besearch_Util {
 
 	/**
 	 * Eventhandler for PAGE_CHECKED Event
-	 * 
-	 * @param array $params 
+	 *
+	 * @param array $params
 	 */
 	public static function pageChecked($params) {
 		$dispatcher = sly_Core::dispatcher();
@@ -38,7 +38,7 @@ abstract class besearch_Util {
 
 	/**
 	 * adds some needed assets to page
-	 * 
+	 *
 	 * @param boolean $articleSearch add js for article search
 	 */
 	private static function addAssets($articleSearch = true) {
@@ -88,8 +88,8 @@ abstract class besearch_Util {
 			return $where;
 		}
 
-		$media_name = mysql_real_escape_string($media_name);
-		$where = "(f.filename LIKE '%$media_name%' OR f.title LIKE '%$media_name%')";
+		$media_name = sly_DB_PDO_Persistence::getInstance()->quote('%'.$media_name.'%');
+		$where = "(f.filename LIKE $media_name OR f.title LIKE $media_name)";
 
 		// Suche auf aktuellen Kontext eingrenzen
 		$categoryID = (int) $params['category_id'];
@@ -107,7 +107,7 @@ abstract class besearch_Util {
 			return $params['subject'];
 		}
 
-		//evaluate 
+		//evaluate
 		$editUrl             = 'index.php?page=content&article_id=%s&mode=edit&clang=%s';
 		$category_id         = sly_request('category_id', 'int', 0);
 		$article_id          = sly_request('article_id', 'int', 0);

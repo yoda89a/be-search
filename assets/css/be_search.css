@@ -10,9 +10,9 @@
 
 #besearch-toolbar {
 	line-height: 24px;
-	label          { font-weight: bold; margin-right:5px; }
+	label { font-weight: bold; margin-right:5px; }
 	.rex-toolbar-content {
-		padding: 7px !important;
+		padding: 7px 10px !important;
 	}
 }
 
@@ -33,6 +33,4 @@
 #besearch-start-search {
 	margin-left: 0px;
 }
-
-#besearch-media-name   { width: 120px; }
 

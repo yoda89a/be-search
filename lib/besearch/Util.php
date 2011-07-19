@@ -42,11 +42,11 @@ abstract class besearch_Util {
 	 * @param boolean $articleSearch add js for article search
 	 */
 	private static function addAssets($articleSearch = true) {
-		$layout = sly_Core::getLayout('Sally');
-		$layout->addCSSFile('../data/dyn/public/be_search/css/be_search.css');
+		$layout = sly_Core::getLayout();
+		$layout->addCSSFile('../sally/data/dyn/public/be_search/css/be_search.css');
 		if ($articleSearch) {
-			$layout->addJavaScriptFile('media/js/jquery.autocomplete.min.js');
-			$layout->addJavaScriptFile('../data/dyn/public/be_search/js/be_search.js');
+			$layout->addJavaScriptFile('assets/js/jquery.autocomplete.min.js');
+			$layout->addJavaScriptFile('../sally/data/dyn/public/be_search/js/be_search.js');
 		}
 	}
 
@@ -108,7 +108,7 @@ abstract class besearch_Util {
 		}
 
 		//evaluate
-		$editUrl             = 'index.php?page=content&article_id=%s&mode=edit&clang=%s';
+		$editUrl             = 'index.php?page=content&article_id=%s&clang=%s';
 		$category_id         = sly_request('category_id', 'int', 0);
 		$article_id          = sly_request('article_id', 'int', 0);
 		$clang               = sly_request('clang', 'rex-clang-id', sly_Core::config()->get('START_CLANG_ID'));
@@ -133,22 +133,11 @@ abstract class besearch_Util {
 				$category_id = $article->getCategoryId();
 		}
 
-		$select_name = 'category_id';
-		$add_homepage = true;
+
 		$page = sly_Controller_Base::getPage();
-		$mode = sly_request('mode', 'string', 'edit');
-		$slot = sly_request('slot', 'string', '');
+		$select_name = $page == 'content' ? 'article_id' : 'category_id';
 
-		if ($page == 'content') {
-			$select_name  = 'article_id';
-			$add_homepage = false;
-		}
-
-		$category_select = new rex_category_select(false, null, true, $add_homepage);
-		$category_select->setName($select_name);
-		$category_select->setId('besearch-category-id');
-		$category_select->setSize('1');
-		$category_select->setSelected($category_id);
+		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, sly_Util_User::getCurrentUser(), 'besearch-category-id');
 
 		$search_bar =
 				'<div id="besearch-toolbar" class="rex-toolbar">
@@ -160,11 +149,9 @@ abstract class besearch_Util {
 				</div>
 				<form action="index.php?page=' . $page . '" method="post">
 					<fieldset>
-						<input type="hidden" name="mode" value="' . sly_html($mode) . '" />
 						<input type="hidden" name="category_id" value="' . $category_id . '" />
 						<input type="hidden" name="article_id" value="' . $article_id . '" />
 						<input type="hidden" name="clang" value="' . $clang . '" />
-						<input type="hidden" name="slot" value="' . sly_html($slot) . '" />
 
 						<div class="rex-fl-lft">
 							<label for="besearch-article-id">' . t('be_search_article_id') . '</label>
@@ -174,7 +161,7 @@ abstract class besearch_Util {
 
 						<div class="rex-fl-rght">
 							<label for="besearch-category-id">' . t('be_search_quick_navi') . '</label>' .
-							$category_select->get() . '
+							$category_select->render() . '
 						</div>
 					</fieldset>
 				</form>

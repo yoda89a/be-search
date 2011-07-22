@@ -23,13 +23,14 @@ abstract class besearch_Util {
 	 */
 	public static function pageChecked($params) {
 		$dispatcher = sly_Core::dispatcher();
-		if ($params['subject'] == 'structure') {
+		$page = $params['subject'];
+		if ($page == 'structure') {
 			self::addAssets();
 			$dispatcher->register('PAGE_STRUCTURE_HEADER', array(__CLASS__, 'articleSearch'));
-		} elseif ($params['subject'] == 'content') {
+		} elseif ($page == 'content' || $page == 'contentmeta') {
 			self::addAssets();
 			$dispatcher->register('PAGE_CONTENT_HEADER', array(__CLASS__, 'articleSearch'));
-		} elseif ($params['subject'] == 'mediapool') {
+		} elseif ($page == 'mediapool') {
 			self::addAssets(false);
 			$dispatcher->register('SLY_MEDIA_LIST_TOOLBAR', array(__CLASS__, 'mediaToolbar'));
 			$dispatcher->register('SLY_MEDIA_LIST_QUERY', array(__CLASS__, 'mediaQuery'));
@@ -133,11 +134,18 @@ abstract class besearch_Util {
 				$category_id = $article->getCategoryId();
 		}
 
-
+		$select_name = 'category_id';
+		$addHomepage = true;
+		
 		$page = sly_Controller_Base::getPage();
-		$select_name = $page == 'content' ? 'article_id' : 'category_id';
+		if($page != 'structure') {
+			$select_name = 'article_id';
+			$addHomepage = false;
+		} 
 
-		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, sly_Util_User::getCurrentUser(), 'besearch-category-id');
+		
+
+		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, sly_Util_User::getCurrentUser(), 'besearch-category-id', $addHomepage);
 
 		$search_bar =
 				'<div id="besearch-toolbar" class="rex-toolbar">

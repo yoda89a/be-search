@@ -34,3 +34,20 @@
 	margin-left: 0px;
 }
 
+.sly-filter-results {
+	background: white;
+	border: 1px dotted #4D4646;
+
+	ul li {
+		list-style: none;
+		font-size: 11px;
+		color: #666;
+		padding: 3px;
+
+		&:hover {
+			background-color: #EEE;
+			color: black;
+			cursor: pointer;
+		}
+	}
+}

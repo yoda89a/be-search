@@ -25,8 +25,6 @@ jQuery(function($) {
 			}
 		});
 	}
-	
+
 	$('#besearch-category-id').change(function(){this.form.submit();});
 });
-
-

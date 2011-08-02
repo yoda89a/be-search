@@ -155,7 +155,7 @@ abstract class besearch_Util {
 		$search_bar =
 				'<div id="besearch-toolbar" class="rex-toolbar">
 		<div class="rex-toolbar-content">
-			<div class="rex-form">
+			<div class="sly-form">
 				<div class="rex-fl-lft">
 					<label for="besearch-article-name">'.t('be_search_article_name').'</label>
 					<input autocomplete="off" id="besearch-article-name" type="text" name="besearch-article-name" value="" />

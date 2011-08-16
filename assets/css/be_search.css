@@ -36,7 +36,8 @@
 
 .sly-filter-results {
 	background: white;
-	border: 1px dotted #4D4646;
+	border: 1px solid #D9D9D9;
+	border-top: none;
 
 	ul li {
 		list-style: none;
@@ -44,7 +45,7 @@
 		color: #666;
 		padding: 3px;
 
-		&:hover {
+		&.acSelect, &:hover {
 			background-color: #EEE;
 			color: black;
 			cursor: pointer;

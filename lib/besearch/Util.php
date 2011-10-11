@@ -134,17 +134,15 @@ abstract class besearch_Util {
 		}
 
 		$select_name = 'category_id';
-		$add_homepage = true;
 		$page = sly_Controller_Base::getPage();
 		$mode = sly_request('mode', 'string', 'edit');
 		$slot = sly_request('slot', 'string', '');
 
 		if ($page == 'content') {
 			$select_name  = 'article_id';
-			$add_homepage = false;
 		}
 
-		$category_select = new rex_category_select(false, null, true, $add_homepage);
+		$category_select = new rex_category_select(false, null, true, true);
 		$category_select->setName($select_name);
 		$category_select->setId('besearch-category-id');
 		$category_select->setSize('1');

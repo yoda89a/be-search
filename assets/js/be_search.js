@@ -25,8 +25,18 @@ jQuery(function($) {
 			}
 		});
 	}
-	
-	$('#besearch-category-id').change(function(){this.form.submit();});
+
+	$('#besearch-category-id').change(function() {
+		var home = $(this).val() === '0';
+
+		if (home) {
+			$('input[name=article_id]', this.form).val(0);
+			$('input[name=category_id]', this.form).val(0);
+			this.form.action = 'index.php?page=structure';
+		}
+
+		this.form.submit();
+	});
 });
 
 

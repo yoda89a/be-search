@@ -141,16 +141,13 @@ abstract class besearch_Util {
 		}
 
 		$select_name = 'category_id';
-		$addHomepage = true;
-
 		$page = sly_Controller_Base::getPage();
 
 		if ($page != 'structure') {
 			$select_name = 'article_id';
-			$addHomepage = false;
 		}
 
-		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', $addHomepage);
+		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', true);
 
 		$search_bar =
 				'<div id="besearch-toolbar" class="rex-toolbar">

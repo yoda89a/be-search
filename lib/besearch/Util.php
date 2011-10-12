@@ -58,7 +58,7 @@ abstract class besearch_Util {
 			return $params['subject'];
 		}
 
-		$media_name = sly_request('besearch-media-name', 'string');
+		$media_name = sly_post('besearch-media-name', 'string');
 
 		$form   = $params['subject'];
 		$input  = new sly_Form_Input_Text('besearch-media-name', t('be_search_mpool_media'), $media_name);
@@ -74,9 +74,9 @@ abstract class besearch_Util {
 
 	public static function mediaQuery($params) {
 		$where      = $params['subject'];
-		$media_name = sly_request('besearch-media-name', 'string');
+		$media_name = sly_post('besearch-media-name', 'string');
 
-		if (!isset($_POST['a256_submit']) || empty($media_name)) {
+		if (sly_post('a256_submit', 'boolean') || empty($media_name)) {
 			return $where;
 		}
 

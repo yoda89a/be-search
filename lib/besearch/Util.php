@@ -54,8 +54,6 @@ abstract class besearch_Util {
 	}
 
 	public static function mediaToolbar($params) {
-		$user = sly_Util_User::getCurrentUser();
-
 		if (sly_request('subpage', 'string') != '') {
 			return $params['subject'];
 		}
@@ -82,8 +80,6 @@ abstract class besearch_Util {
 			return $where;
 		}
 
-		$user = sly_Util_User::getCurrentUser();
-
 		$media_name = sly_DB_PDO_Persistence::getInstance()->quote('%'.$media_name.'%');
 		$where      = "(f.filename LIKE $media_name OR f.title LIKE $media_name)";
 
@@ -98,9 +94,6 @@ abstract class besearch_Util {
 	}
 
 	public static function articleSearch($params) {
-		// check permission
-		$user = sly_Util_User::getCurrentUser();
-
 		// evaluate
 		$editUrl             = 'index.php?page=content&article_id=%s&clang=%s';
 		$category_id         = sly_request('category_id', 'int', 0);
@@ -138,6 +131,7 @@ abstract class besearch_Util {
 			$addHomepage = false;
 		}
 
+		$user = sly_Util_User::getCurrentUser();
 		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', $addHomepage);
 
 		$search_bar =

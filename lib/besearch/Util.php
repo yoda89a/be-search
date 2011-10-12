@@ -54,17 +54,11 @@ abstract class besearch_Util {
 	}
 
 	public static function mediaToolbar($params) {
-		$user = sly_Util_User::getCurrentUser();
-
-		if (!$user->isAdmin() && !$user->hasRight('be_search[mediapool]')) {
-			return $params['subject'];
-		}
-
 		if (sly_request('subpage', 'string') != '') {
 			return $params['subject'];
 		}
 
-		$media_name = sly_request('besearch-media-name', 'string');
+		$media_name = sly_post('besearch-media-name', 'string');
 
 		$form   = $params['subject'];
 		$input  = new sly_Form_Input_Text('besearch-media-name', t('be_search_mpool_media'), $media_name);
@@ -80,15 +74,9 @@ abstract class besearch_Util {
 
 	public static function mediaQuery($params) {
 		$where      = $params['subject'];
-		$media_name = sly_request('besearch-media-name', 'string');
+		$media_name = sly_post('besearch-media-name', 'string');
 
-		if (!isset($_POST['a256_submit']) || empty($media_name)) {
-			return $where;
-		}
-
-		$user = sly_Util_User::getCurrentUser();
-
-		if (!$user->isAdmin() && !$user->hasRight('be_search[mediapool]')) {
+		if (sly_post('a256_submit', 'boolean') || empty($media_name)) {
 			return $where;
 		}
 
@@ -106,13 +94,6 @@ abstract class besearch_Util {
 	}
 
 	public static function articleSearch($params) {
-		// check permission
-		$user = sly_Util_User::getCurrentUser();
-
-		if (!$user->isAdmin() && !$user->hasRight('be_search[structure]')) {
-			return $params['subject'];
-		}
-
 		// evaluate
 		$editUrl             = 'index.php?page=content&article_id=%s&clang=%s';
 		$category_id         = sly_request('category_id', 'int', 0);
@@ -147,7 +128,8 @@ abstract class besearch_Util {
 			$select_name = 'article_id';
 		}
 
-		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', true);
+		$user = sly_Util_User::getCurrentUser();
+		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', $addHomepage);
 
 		$search_bar =
 				'<div id="besearch-toolbar" class="rex-toolbar">

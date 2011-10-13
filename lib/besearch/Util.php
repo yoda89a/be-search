@@ -129,7 +129,7 @@ abstract class besearch_Util {
 		}
 
 		$user = sly_Util_User::getCurrentUser();
-		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', $addHomepage);
+		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', true);
 
 		$search_bar =
 				'<div id="besearch-toolbar" class="rex-toolbar">

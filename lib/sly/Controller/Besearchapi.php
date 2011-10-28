@@ -24,7 +24,7 @@ class sly_Controller_BESearchApi extends sly_Controller_Ajax {
 		foreach ($sql as $row) {
 			$article = sly_Util_Article::findById($row['id'], $row['clang']);
 
-			if ($article && sly_Util_Category::hasPermissionOnCategory($user, $row['id'])) {
+			if ($article && sly_Util_Article::canReadArticle($user, $row['id'])) {
 				$name = str_replace('|', '/', sly_html($article->getName()));
 				$path = $article->getParentTree();
 

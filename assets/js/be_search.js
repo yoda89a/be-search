@@ -13,7 +13,7 @@ jQuery(function($) {
 		$('#besearch-article-name').autocomplete({
 			url:            'index.php',
 			paramName:      'q',
-			extraParams:    {page: 'besearchapi', func: 'article_search'},
+			extraParams:    {page: 'besearchapi', func: 'article_search', clang: $('#besearch-toolbar input[name="clang"]').val()},
 			maxCacheLength: 50,
 			matchContains:  true,
 			resultsClass:   'sly-filter-results',

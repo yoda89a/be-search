@@ -19,10 +19,10 @@ class sly_Controller_BESearchApi extends sly_Controller_Ajax {
 		$prefix = sly_Core::config()->get('DATABASE/TABLE_PREFIX');
 		$user   = sly_Util_User::getCurrentUser();
 
-		$sql->query('SELECT id,clang FROM '.$prefix.'article WHERE name LIKE ? GROUP BY id', array("%$query%"));
+		$sql->query('SELECT id FROM '.$prefix.'article WHERE name LIKE ? GROUP BY id', array("%$query%"));
 
 		foreach ($sql as $row) {
-			$article = sly_Util_Article::findById($row['id'], $row['clang']);
+			$article = sly_Util_Article::findById($row['id'], sly_Core::getCurrentClang());
 
 			if ($article && sly_Util_Article::canReadArticle($user, $row['id'])) {
 				$name = str_replace('|', '/', sly_html($article->getName()));
@@ -38,7 +38,7 @@ class sly_Controller_BESearchApi extends sly_Controller_Ajax {
 				}
 
 				array_unshift($path, '(Homepage)');
-				printf("%s|%d|%s|%d\n", $name, $row['id'], implode(' &gt; ', $path), $row['clang']);
+				printf("%s|%d|%s|%d\n", $name, $row['id'], implode(' &gt; ', $path), sly_Core::getCurrentClang());
 			}
 		}
 	}

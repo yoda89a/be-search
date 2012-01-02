@@ -1,7 +1,2 @@
-be_search_article_name: Artikelname
-be_search_article_id: Artikel Id
-be_search_start: Suchen
 be_search_quick_navi: Schnellnavigation
-
-be_search_mpool_media: Mediumname
-be_search_mpool_start: Suchen
+be_search_medium_name: Mediumname

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, webvariants GbR, http://www.webvariants.de
+ * Copyright (c) 2012, webvariants GbR, http://www.webvariants.de
  *
  * This file is released under the terms of the MIT license. You can find the
  * complete text in the attached LICENSE file or online at:
@@ -8,23 +8,25 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-class sly_Controller_BESearchApi extends sly_Controller_Ajax {
-	protected function index() {
+class sly_Controller_Besearchapi extends sly_Controller_Ajax {
+	public function indexAction() {
 		print 'Welcome to the API controller.';
 	}
 
-	protected function article_search() {
+	public function articlesearchAction() {
 		$query  = sly_get('q', 'string');
 		$sql    = sly_DB_Persistence::getInstance();
-		$prefix = sly_Core::config()->get('DATABASE/TABLE_PREFIX');
+		$prefix = sly_Core::getTablePrefix();
 		$user   = sly_Util_User::getCurrentUser();
+		$clang  = sly_Core::getCurrentClang();
 
 		$sql->query('SELECT id FROM '.$prefix.'article WHERE name LIKE ? GROUP BY id', array("%$query%"));
 
 		foreach ($sql as $row) {
-			$article = sly_Util_Article::findById($row['id'], sly_Core::getCurrentClang());
+			$id      = $row['id'];
+			$article = sly_Util_Article::findById($id, $clang);
 
-			if ($article && sly_Util_Article::canReadArticle($user, $row['id'])) {
+			if ($article && sly_Util_Article::canReadArticle($user, $id)) {
 				$name = str_replace('|', '/', sly_html($article->getName()));
 				$path = $article->getParentTree();
 
@@ -38,13 +40,12 @@ class sly_Controller_BESearchApi extends sly_Controller_Ajax {
 				}
 
 				array_unshift($path, '(Homepage)');
-				printf("%s|%d|%s|%d\n", $name, $row['id'], implode(' &gt; ', $path), sly_Core::getCurrentClang());
+				printf("%s|%d|%s|%d\n", $name, $id, implode(' &gt; ', $path), $clang);
 			}
 		}
 	}
 
-	protected function checkPermission() {
-		$user = sly_Util_User::getCurrentUser();
-		return !is_null($user);
+	public function checkPermission() {
+		return sly_Util_User::getCurrentUser() !== null;
 	}
 }

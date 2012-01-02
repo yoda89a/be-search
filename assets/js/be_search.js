@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2011, webvariants GbR, http://www.webvariants.de
+ * Copyright (c) 2012, webvariants GbR, http://www.webvariants.de
  *
- * Diese Datei steht unter der MIT-Lizenz. Der Lizenztext befindet sich in der
- * beiliegenden LICENSE Datei und unter:
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
  *
  * http://www.opensource.org/licenses/mit-license.php
- * http://de.wikipedia.org/wiki/MIT-Lizenz
  */
 
 jQuery(function($) {
@@ -13,7 +12,7 @@ jQuery(function($) {
 		$('#besearch-article-name').autocomplete({
 			url:            'index.php',
 			paramName:      'q',
-			extraParams:    {page: 'besearchapi', func: 'article_search', clang: $('#besearch-toolbar input[name="clang"]').val()},
+			extraParams:    {page: 'besearchapi', func: 'articlesearch', clang: $('#besearch-toolbar input[name="clang"]').val()},
 			maxCacheLength: 50,
 			matchContains:  true,
 			resultsClass:   'sly-filter-results',
@@ -21,7 +20,7 @@ jQuery(function($) {
 				return '<span class="name"><strong>' + value + '</strong></span><br/><span class="cat">' + data[1] + '</span>';
 			},
 			onItemSelect:   function(item) {
-				window.location = 'index.php?page=content&article_id=' + item.data[0] + '&mode=edit&clang=' + item.data[2];
+				window.location = 'index.php?page=content&article_id=' + item.data[0] + '&clang=' + item.data[2];
 			}
 		});
 	}
@@ -38,5 +37,3 @@ jQuery(function($) {
 		this.form.submit();
 	});
 });
-
-

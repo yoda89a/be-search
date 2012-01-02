@@ -1,0 +1,38 @@
+<?php
+/*
+ * Copyright (c) 2012, webvariants GbR, http://www.webvariants.de
+ *
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
+ *
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+?>
+<div id="besearch-toolbar" class="sly-toolbar">
+	<div class="sly-toolbar-content">
+		<div class="sly-form">
+			<div class="fleft">
+				<label for="besearch-article-name"><?php echo t('article_name') ?>:</label>
+				<input autocomplete="off" id="besearch-article-name" type="text" name="besearch-article-name" value="" />
+			</div>
+			<form action="index.php?page=<?php echo $page ?>" method="post">
+				<fieldset>
+					<input type="hidden" name="category_id" value="<?php echo $categoryID ?>" />
+					<input type="hidden" name="article_id" value="<?php echo $articleID ?>" />
+					<input type="hidden" name="clang" value="<?php echo $clang ?>" />
+
+					<div class="fleft">
+						<label for="besearch-article-id"><?php echo t('id') ?>:</label>
+						<input type="text" name="besearch-article-id" id="besearch-article-id" />
+						<input class="rex-form-submit" type="submit" id="besearch-start-search" value="<?php echo t('search') ?>" />
+					</div>
+
+					<div class="fright">
+						<label for="besearch-category-id"><?php echo t('be_search_quick_navi') ?></label>
+						<?php echo $quickNavi->render() ?>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>

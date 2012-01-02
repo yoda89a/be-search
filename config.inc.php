@@ -1,12 +1,11 @@
 <?php
 /*
- * Copyright (c) 2011, webvariants GbR, http://www.webvariants.de
+ * Copyright (c) 2012, webvariants GbR, http://www.webvariants.de
  *
- * Diese Datei steht unter der MIT-Lizenz. Der Lizenztext befindet sich in der
- * beiliegenden LICENSE Datei und unter:
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
  *
  * http://www.opensource.org/licenses/mit-license.php
- * http://de.wikipedia.org/wiki/MIT-Lizenz
  */
 
 /**
@@ -18,5 +17,4 @@
 if (!sly_Core::isBackend()) return;
 
 sly_Loader::addLoadPath(SLY_ADDONFOLDER.'/be_search/lib');
-sly_Core::getI18N()->appendFile(SLY_ADDONFOLDER.'/be_search/lang/');
-sly_Core::dispatcher()->register('PAGE_CHECKED', array('besearch_Util', 'pageChecked'));
+sly_Core::dispatcher()->register('SLY_CONTROLLER_FOUND', array('besearch_Util', 'controllerFound'));

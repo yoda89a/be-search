@@ -1,19 +1,29 @@
 /*
- * Copyright (c) 2011, webvariants GbR, http://www.webvariants.de
+ * Copyright (c) 2012, webvariants GbR, http://www.webvariants.de
  *
- * Diese Datei steht unter der MIT-Lizenz. Der Lizenztext befindet sich in der
- * beiliegenden LICENSE Datei und unter:
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
  *
  * http://www.opensource.org/licenses/mit-license.php
- * http://de.wikipedia.org/wiki/MIT-Lizenz
  */
 
 #besearch-toolbar {
 	line-height: 24px;
-	label { font-weight: bold; margin-right:5px; width: auto; display: inline-block; float: none; }
-	.rex-toolbar-content {
+
+	label {
+		font-weight: bold;
+		margin-right:5px;
+		width: auto;
+		display: inline-block;
+		float: none;
+	}
+
+	.sly-toolbar-content {
 		padding: 7px 10px !important;
 	}
+
+	.fleft  { float: left;  }
+	.fright { float: right; }
 }
 
 #besearch-article-name {
@@ -22,7 +32,9 @@
 }
 
 #besearch-category-id {
-	width: 220px;
+	width: auto;
+	min-width: 150px;
+	max-width: 260px;
 }
 
 #besearch-article-id {

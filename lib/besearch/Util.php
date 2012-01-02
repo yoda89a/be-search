@@ -1,12 +1,11 @@
 <?php
 /*
- * Copyright (c) 2011, webvariants GbR, http://www.webvariants.de
+ * Copyright (c) 2012, webvariants GbR, http://www.webvariants.de
  *
- * Diese Datei steht unter der MIT-Lizenz. Der Lizenztext befindet sich in der
- * beiliegenden LICENSE Datei und unter:
+ * This file is released under the terms of the MIT license. You can find the
+ * complete text in the attached LICENSE file or online at:
  *
  * http://www.opensource.org/licenses/mit-license.php
- * http://de.wikipedia.org/wiki/MIT-Lizenz
  */
 
 /**
@@ -19,54 +18,53 @@ abstract class besearch_Util {
 	 *
 	 * @param array $params
 	 */
-	public static function pageChecked($params) {
+	public static function controllerFound(array $params) {
 		$dispatcher = sly_Core::dispatcher();
 		$page       = $params['subject'];
+		$assets     = null;
 
-		if ($page == 'structure') {
-			self::addAssets();
+		if ($page === 'structure') {
+			$assets = true;
 			$dispatcher->register('PAGE_STRUCTURE_HEADER', array(__CLASS__, 'articleSearch'));
 		}
-		elseif ($page == 'content' || $page == 'contentmeta') {
-			self::addAssets();
+		elseif ($page === 'content' || $page === 'contentmeta') {
+			$assets = true;
 			$dispatcher->register('PAGE_CONTENT_HEADER', array(__CLASS__, 'articleSearch'));
 		}
-		elseif ($page == 'mediapool') {
-			self::addAssets(false);
+		elseif ($page === 'mediapool') {
+			$assets = false;
 			$dispatcher->register('SLY_MEDIA_LIST_TOOLBAR', array(__CLASS__, 'mediaToolbar'));
 			$dispatcher->register('SLY_MEDIA_LIST_QUERY', array(__CLASS__, 'mediaQuery'));
+		}
+
+		if ($assets !== null) {
+			self::addAssets($assets);
+			sly_Core::getI18N()->appendFile(SLY_ADDONFOLDER.'/be_search/lang/');
 		}
 	}
 
 	/**
 	 * adds some needed assets to page
 	 *
-	 * @param boolean $articleSearch add js for article search
+	 * @param boolean $articleSearch  add js for article search
 	 */
-	private static function addAssets($articleSearch = true) {
+	private static function addAssets($articleSearch) {
 		$layout = sly_Core::getLayout();
-		$layout->addCSSFile('../sally/data/dyn/public/be_search/css/be_search.css');
+		$layout->addCSSFile('../data/dyn/public/be_search/css/be_search.css');
 
 		if ($articleSearch) {
 			$layout->addJavaScriptFile('assets/js/jquery.autocomplete.min.js');
-			$layout->addJavaScriptFile('../sally/data/dyn/public/be_search/js/be_search.js');
+			$layout->addJavaScriptFile('../data/dyn/public/be_search/js/be_search.js');
 		}
 	}
 
-	public static function mediaToolbar($params) {
-		if (sly_request('subpage', 'string') != '') {
-			return $params['subject'];
-		}
+	public static function mediaToolbar(array $params) {
+		$mediumName = sly_post('be_search_medium_name', 'string');
+		$form       = $params['subject'];
+		$input      = new sly_Form_Input_Text('be_search_medium_name', '', $mediumName);
+		$button     = new sly_Form_Input_Button('submit', 'be_search_submit', t('search'));
 
-		$media_name = sly_post('besearch-media-name', 'string');
-
-		$form   = $params['subject'];
-		$input  = new sly_Form_Input_Text('besearch-media-name', t('be_search_mpool_media'), $media_name);
-		$button = new sly_Form_Input_Button('submit', 'a256_submit', t('be_search_mpool_start'));
-
-		$button->addClass('rex-form-submit');
-
-		$row = new sly_Form_Freeform('besearch-media-name', t('be_search_mpool_media'), $input->render().' '.$button->render());
+		$row = new sly_Form_Freeform('be_search_medium_name', t('be_search_medium_name'), $input->render().' '.$button->render());
 		$form->add($row);
 
 		return $form;
@@ -74,93 +72,56 @@ abstract class besearch_Util {
 
 	public static function mediaQuery($params) {
 		$where      = $params['subject'];
-		$media_name = sly_post('besearch-media-name', 'string');
+		$mediumName = sly_post('be_search_medium_name', 'string');
 
-		if (sly_post('a256_submit', 'boolean') || empty($media_name)) {
+		if (sly_post('be_search_submit', 'boolean') || mb_strlen($mediumName) === 0) {
 			return $where;
 		}
 
-		$media_name = sly_DB_PDO_Persistence::getInstance()->quote('%'.$media_name.'%');
-		$where      = "(f.filename LIKE $media_name OR f.title LIKE $media_name)";
+		$pdo        = sly_DB_PDO_Persistence::getInstance();
+		$mediumName = $pdo->quote('%'.$mediumName.'%');
 
-		// Suche auf aktuellen Kontext eingrenzen
-		$categoryID = (int) $params['category_id'];
-
-		if ($categoryID != 0) {
-			$where .= " AND (c.path LIKE '%|$categoryID|%' OR c.id = $categoryID)";
-		}
-
-		return $where;
+		return "$where AND (f.filename LIKE $mediumName OR f.title LIKE $mediumName)";
 	}
 
-	public static function articleSearch($params) {
-		// evaluate
-		$editUrl             = 'index.php?page=content&article_id=%s&clang=%s';
-		$category_id         = sly_request('category_id', 'int', 0);
-		$article_id          = sly_request('article_id', 'int', 0);
-		$clang               = sly_Core::getCurrentClang();
-		$besearch_article_id = sly_post('besearch-article-id', 'int', 0);
+	public static function articleSearch(array $params) {
+		$editUrl    = 'index.php?page=content&article_id=%d&clang=%d';
+		$categoryID = sly_request('category_id', 'int', 0);
+		$articleID  = sly_Core::getCurrentArticleId();
+		$clang      = sly_Core::getCurrentClang();
+		$searchID   = sly_request('besearch-article-id', 'int', 0);
 
-		// ------------ Parameter
-		// ------------ Suche via ArtikelId
-		if ($besearch_article_id != 0) {
-			$article = sly_Util_Article::findById($besearch_article_id, $clang);
+		// article search by ID
+
+		if ($searchID !== 0) {
+			$article = sly_Util_Article::findById($searchID, $clang);
 
 			if (sly_Util_Article::isValid($article)) {
-				sly_Util_HTTP::redirect(sprintf($editUrl, $besearch_article_id, $clang));
+				sly_Util_HTTP::redirect(sprintf($editUrl, $searchID, $clang));
 			}
 		}
 
-		// render frontend
-		// Auswahl eines normalen Artikels => category holen
-		if ($article_id != 0) {
-			$article = sly_Util_Article::findById($article_id, $clang);
-			// Falls Artikel gerade gelöscht wird, gibts keinen OOArticle
-			if ($article) {
-				$category_id = $article->getCategoryId();
-			}
+		$page       = sly_Core::getCurrentController();
+		$user       = sly_Util_User::getCurrentUser();
+		$selectName = $page === 'structure' ? 'category_id' : 'article_id';
+		$quickNavi  = sly_Form_Helper::getCategorySelect($selectName, false, null, null, $user, 'besearch-category-id', true);
+
+		// find current category
+
+		if ($articleID !== 0) {
+			$article = sly_Util_Article::findById($articleID, $clang);
+
+			// the article might just have been deleted, so be careful
+			if ($article) $categoryID = $article->getCategoryId();
 		}
 
-		$select_name = 'category_id';
-		$page = sly_Controller_Base::getPage();
+		// pre-select the category
+		$quickNavi->setSelected($categoryID);
 
-		if ($page != 'structure') {
-			$select_name = 'article_id';
-		}
+		ob_start();
+		include SLY_ADDONFOLDER.'/be_search/views/toolbar.phtml';
+		$bar = ob_get_clean();
 
-		$user = sly_Util_User::getCurrentUser();
-		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', true);
-
-		$search_bar =
-				'<div id="besearch-toolbar" class="rex-toolbar">
-		<div class="rex-toolbar-content">
-			<div class="sly-form">
-				<div class="rex-fl-lft">
-					<label for="besearch-article-name">'.t('be_search_article_name').'</label>
-					<input autocomplete="off" id="besearch-article-name" type="text" name="besearch-article-name" value="" />
-				</div>
-				<form action="index.php?page='.$page.'" method="post">
-					<fieldset>
-						<input type="hidden" name="category_id" value="'.$category_id.'" />
-						<input type="hidden" name="article_id" value="'.$article_id.'" />
-						<input type="hidden" name="clang" value="'.$clang.'" />
-
-						<div class="rex-fl-lft">
-							<label for="besearch-article-id">'.t('be_search_article_id').'</label>
-							<input type="text" name="besearch-article-id" id="besearch-article-id" />
-							<input class="rex-form-submit" type="submit" id="besearch-start-search" value="'.t('be_search_start').'" />
-						</div>
-
-						<div class="rex-fl-rght">
-							<label for="besearch-category-id">'.t('be_search_quick_navi').'</label>'.
-							$category_select->render().'
-						</div>
-					</fieldset>
-				</form>
-			</div>
-		</div>
-	</div>';
-
-		return $search_bar.$params['subject'];
+		return $bar.$params['subject'];
 	}
 }

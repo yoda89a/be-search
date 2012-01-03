@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-class sly_Controller_Besearchapi extends sly_Controller_Ajax {
+class sly_Controller_Besearchapi extends sly_Controller_Ajax implements sly_Controller_Interface {
 	public function indexAction() {
 		$this->init();
 		print 'Welcome to the API controller.';

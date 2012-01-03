@@ -10,10 +10,14 @@
 
 class sly_Controller_Besearchapi extends sly_Controller_Ajax {
 	public function indexAction() {
+		$this->init();
 		print 'Welcome to the API controller.';
+		$this->teardown();
 	}
 
 	public function articlesearchAction() {
+		$this->init();
+
 		$query  = sly_get('q', 'string');
 		$sql    = sly_DB_Persistence::getInstance();
 		$prefix = sly_Core::getTablePrefix();
@@ -43,6 +47,8 @@ class sly_Controller_Besearchapi extends sly_Controller_Ajax {
 				printf("%s|%d|%s|%d\n", $name, $id, implode(' &gt; ', $path), $clang);
 			}
 		}
+
+		$this->teardown();
 	}
 
 	public function checkPermission() {

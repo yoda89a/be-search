@@ -51,7 +51,7 @@ class sly_Controller_Besearchapi extends sly_Controller_Ajax {
 		$this->teardown();
 	}
 
-	public function checkPermission() {
+	public function checkPermission($action) {
 		return sly_Util_User::getCurrentUser() !== null;
 	}
 }

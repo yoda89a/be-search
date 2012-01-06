@@ -20,7 +20,7 @@ abstract class besearch_Util {
 	 */
 	public static function controllerFound(array $params) {
 		$dispatcher = sly_Core::dispatcher();
-		$page       = $params['subject'];
+		$page       = $params['name'];
 		$assets     = null;
 
 		if ($page === 'structure') {
@@ -101,7 +101,7 @@ abstract class besearch_Util {
 			}
 		}
 
-		$page       = sly_Core::getCurrentController();
+		$page       = sly_Core::getCurrentControllerName();
 		$user       = sly_Util_User::getCurrentUser();
 		$selectName = $page === 'structure' ? 'category_id' : 'article_id';
 		$quickNavi  = sly_Form_Helper::getCategorySelect($selectName, false, null, null, $user, 'besearch-category-id', true);

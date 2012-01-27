@@ -13,7 +13,7 @@
 		<div class="sly-form">
 			<div class="fleft">
 				<label for="besearch-article-name"><?php echo t('article_name') ?>:</label>
-				<input autocomplete="off" id="besearch-article-name" type="text" name="besearch-article-name" value="" />
+				<input autocomplete="off" id="besearch-article-name" type="text" name="besearch-article-name" value="" class="sly-form-text" />
 			</div>
 			<form action="index.php?page=<?php echo $page ?>" method="post">
 				<fieldset>
@@ -23,8 +23,8 @@
 
 					<div class="fleft">
 						<label for="besearch-article-id"><?php echo t('id') ?>:</label>
-						<input type="text" name="besearch-article-id" id="besearch-article-id" />
-						<input class="rex-form-submit" type="submit" id="besearch-start-search" value="<?php echo t('search') ?>" />
+						<input type="text" name="besearch-article-id" id="besearch-article-id" class="sly-form-text" />
+						<input class="sly-form-submit" type="submit" id="besearch-start-search" value="<?php echo t('search') ?>" />
 					</div>
 
 					<div class="fright">

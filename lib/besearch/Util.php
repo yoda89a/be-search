@@ -108,7 +108,7 @@ abstract class besearch_Util {
 
 		// find current category
 
-		if ($articleID !== 0) {
+		if ($articleID !== 0 && $articleID !== null) {
 			$article = sly_Util_Article::findById($articleID, $clang);
 
 			// the article might just have been deleted, so be careful

@@ -115,7 +115,7 @@ abstract class besearch_Util {
 		// Auswahl eines normalen Artikels => category holen
 		if ($article_id != 0) {
 			$article = sly_Util_Article::findById($article_id, $clang);
-			// Falls Artikel gerade gelöscht wird, gibts keinen OOArticle
+			// Falls Artikel gerade gelöscht wird, gibts keinen Artikel
 			if ($article) {
 				$category_id = $article->getCategoryId();
 			}
@@ -130,6 +130,7 @@ abstract class besearch_Util {
 
 		$user = sly_Util_User::getCurrentUser();
 		$category_select = sly_Form_Helper::getCategorySelect($select_name, false, null, null, $user, 'besearch-category-id', true);
+		$category_select->setAttribute('value', $category_id);
 
 		$search_bar =
 				'<div id="besearch-toolbar" class="rex-toolbar">

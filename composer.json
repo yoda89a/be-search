@@ -1,0 +1,16 @@
+{
+	"name": "sallycms/be-search",
+	"description": "AddOn for SallyCMS, providing enhancements for the backend UI in structure and mediapool views",
+	"authors": [{"name": "webvariants GbR"}],
+	"homepage": "http://www.sallycms.de/",
+	"version": "1.6-dev",
+	"license": "MIT",
+	"type": "sallycms-addon",
+	"require": {
+		"sallycms/composer-installer": "*",
+		"sallycms/sallycms": "0.6"
+	},
+	"autoload": {
+		"psr-0": {"": "lib/"}
+	}
+}

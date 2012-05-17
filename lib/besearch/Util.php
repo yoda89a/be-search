@@ -39,7 +39,7 @@ abstract class besearch_Util {
 
 		if ($assets !== null) {
 			self::addAssets($assets);
-			sly_Core::getI18N()->appendFile(SLY_ADDONFOLDER.'/be_search/lang/');
+			sly_Core::getI18N()->appendFile(BESEARCH_PATH.'lang/');
 		}
 	}
 
@@ -50,11 +50,15 @@ abstract class besearch_Util {
 	 */
 	private static function addAssets($articleSearch) {
 		$layout = sly_Core::getLayout();
-		$layout->addCSSFile('../data/dyn/public/be_search/css/be_search.css');
+		$is06   = sly_Core::getVersion('X.Y') === '0.6';
+		$base   = $is06 ? '../data/dyn/public/be_search/' : sly_Util_AddOn::assetBaseUri('sallycms/be-search');
+		$ext    = $is06 ? 'css' : 'less';
+
+		$layout->addCSSFile($base.'css/be_search.'.$ext);
 
 		if ($articleSearch) {
 			$layout->addJavaScriptFile('assets/js/jquery.autocomplete.min.js');
-			$layout->addJavaScriptFile('../data/dyn/public/be_search/js/be_search.js');
+			$layout->addJavaScriptFile($base.'js/be_search.js');
 		}
 	}
 
@@ -119,7 +123,7 @@ abstract class besearch_Util {
 		$quickNavi->setSelected($categoryID);
 
 		ob_start();
-		include SLY_ADDONFOLDER.'/be_search/views/toolbar.phtml';
+		include BESEARCH_PATH.'views/toolbar.phtml';
 		$bar = ob_get_clean();
 
 		return $bar.$params['subject'];

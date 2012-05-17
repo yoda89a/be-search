@@ -8,7 +8,7 @@
 	"type": "sallycms-addon",
 	"require": {
 		"sallycms/composer-installer": "*",
-		"sallycms/sallycms": "0.6"
+		"sallycms/sallycms": "0.6,0.7"
 	},
 	"autoload": {
 		"psr-0": {"": "lib/"}

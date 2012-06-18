@@ -15,8 +15,8 @@
 				<label for="besearch-article-name"><?php echo t('article_name') ?>:</label>
 				<input autocomplete="off" id="besearch-article-name" type="text" name="besearch-article-name" value="" class="sly-form-text" />
 			</div>
-			<form action="index.php?page=<?php echo $page ?>" method="post">
-				<fieldset>
+			<fieldset>
+				<form action="index.php?page=<?php echo $page ?>" method="post">
 					<input type="hidden" name="category_id" value="<?php echo $categoryID ?>" />
 					<input type="hidden" name="article_id" value="<?php echo $articleID ?>" />
 					<input type="hidden" name="clang" value="<?php echo $clang ?>" />
@@ -26,13 +26,15 @@
 						<input type="text" name="besearch-article-id" id="besearch-article-id" class="sly-form-text" />
 						<input class="sly-form-submit" type="submit" id="besearch-start-search" value="<?php echo t('search') ?>" />
 					</div>
-
+				</form>
+				<form action="index.php?page=<?php echo $page ?>" method="get">
+					<input type="hidden" name="clang" value="<?php echo $clang ?>" />
 					<div class="fright">
 						<label for="besearch-category-id"><?php echo t('be_search_quick_navi') ?></label>
 						<?php echo $quickNavi->render() ?>
 					</div>
-				</fieldset>
-			</form>
+				</form>
+			</fieldset>
 		</div>
 	</div>
 </div>

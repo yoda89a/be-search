@@ -27,7 +27,8 @@
 						<input class="sly-form-submit" type="submit" id="besearch-start-search" value="<?php echo t('search') ?>" />
 					</div>
 				</form>
-				<form action="index.php?page=<?php echo $page ?>" method="get">
+				<form action="index.php" method="get">
+					<input type="hidden" name="page" value="structure" />
 					<input type="hidden" name="clang" value="<?php echo $clang ?>" />
 					<div class="fright">
 						<label for="besearch-category-id"><?php echo t('be_search_quick_navi') ?></label>

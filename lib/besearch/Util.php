@@ -105,10 +105,9 @@ abstract class besearch_Util {
 			}
 		}
 
-		$page       = sly_Core::getCurrentControllerName();
-		$user       = sly_Util_User::getCurrentUser();
-		$selectName = $page === 'structure' ? 'category_id' : 'article_id';
-		$quickNavi  = sly_Form_Helper::getCategorySelect($selectName, false, null, null, $user, 'besearch-category-id', true);
+		$page      = sly_Core::getCurrentControllerName();
+		$user      = sly_Util_User::getCurrentUser();
+		$quickNavi = sly_Form_Helper::getCategorySelect('category_id', false, null, null, $user, 'besearch-category-id', true);
 
 		// find current category
 

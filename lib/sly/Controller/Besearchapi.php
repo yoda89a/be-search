@@ -10,19 +10,18 @@
 
 class sly_Controller_Besearchapi extends sly_Controller_Ajax implements sly_Controller_Interface {
 	public function indexAction() {
-		$this->init();
-		print 'Welcome to the API controller.';
-		$this->teardown();
+		return new sly_Response('Welcome to the API controller.', 404);
 	}
 
 	public function articlesearchAction() {
-		$this->init();
-
-		$query  = sly_get('q', 'string');
-		$sql    = sly_DB_Persistence::getInstance();
-		$prefix = sly_Core::getTablePrefix();
-		$user   = sly_Util_User::getCurrentUser();
-		$clang  = sly_Core::getCurrentClang();
+		$query    = sly_get('q', 'string');
+		$sql      = sly_DB_Persistence::getInstance();
+		$user     = sly_Util_User::getCurrentUser();
+		$prefix   = sly_Core::getTablePrefix();
+		$clang    = sly_Core::getCurrentClang();
+		$response = sly_Core::getResponse();
+		$home     = '('.t('home').')';
+		$lines    = array();
 
 		$sql->query('SELECT id FROM '.$prefix.'article WHERE name LIKE ? GROUP BY id', array("%$query%"));
 
@@ -43,12 +42,15 @@ class sly_Controller_Besearchapi extends sly_Controller_Ajax implements sly_Cont
 					array_unshift($path, '&hellip;');
 				}
 
-				array_unshift($path, '(Homepage)');
-				printf("%s|%d|%s|%d\n", $name, $id, implode(' &gt; ', $path), $clang);
+				array_unshift($path, $home);
+				$lines[] = sprintf('%s|%d|%s|%d', $name, $id, implode(' &gt; ', $path), $clang);
 			}
 		}
 
-		$this->teardown();
+		$response->setContentType('text/plain');
+		$response->setContent(implode("\n", $lines));
+
+		return $response;
 	}
 
 	public function checkPermission($action) {

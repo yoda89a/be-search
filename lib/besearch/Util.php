@@ -57,7 +57,7 @@ abstract class besearch_Util {
 		$layout->addCSSFile($base.'css/be_search.'.$ext);
 
 		if ($articleSearch) {
-			$layout->addJavaScriptFile('assets/js/jquery.autocomplete.min.js');
+			$layout->addJavaScriptFile($is06 ? 'assets/js/jquery.autocomplete.min.js' : $base.'js/jquery.autocomplete.min.js');
 			$layout->addJavaScriptFile($base.'js/be_search.js');
 		}
 	}
@@ -89,7 +89,7 @@ abstract class besearch_Util {
 	}
 
 	public static function articleSearch(array $params) {
-		$editUrl    = 'index.php?page=content&article_id=%d&clang=%d';
+		$editUrl    = sly_Util_HTTP::getBaseUrl(true).'/backend/index.php?page=content&article_id=%d&clang=%d';
 		$categoryID = sly_request('category_id', 'int', 0);
 		$articleID  = sly_Core::getCurrentArticleId();
 		$clang      = sly_Core::getCurrentClang();

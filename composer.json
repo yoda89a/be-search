@@ -14,7 +14,8 @@
 	},
 	"extra": {
 		"sallycms": {
-			"version": "1.7-dev"
+			"version": "1.7-dev",
+			"imex-ignore": true
 		}
 	}
 }

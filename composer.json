@@ -16,6 +16,9 @@
 		"sallycms": {
 			"version": "1.7-dev",
 			"imex-ignore": true
+		},
+		"branch-alias": {
+			"dev-default": "1.7.x-dev"
 		}
 	}
 }

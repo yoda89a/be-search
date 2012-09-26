@@ -78,7 +78,7 @@ abstract class besearch_Util {
 		$where      = $params['subject'];
 		$mediumName = sly_post('be_search_medium_name', 'string');
 
-		if (sly_post('be_search_submit', 'boolean') || mb_strlen($mediumName) === 0) {
+		if (mb_strlen($mediumName) === 0) {
 			return $where;
 		}
 

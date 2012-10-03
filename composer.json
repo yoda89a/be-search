@@ -20,7 +20,7 @@
     },
     "extra": {
         "sallycms": {
-            "version": "1.7.2",
+            "version": "1.7-dev",
             "imex-ignore": true
         },
         "branch-alias": {

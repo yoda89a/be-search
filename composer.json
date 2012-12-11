@@ -10,8 +10,8 @@
     "license": "MIT",
     "type": "sallycms-addon",
     "require": {
-        "sallycms/composer-installer": "*",
-        "sallycms/sallycms": "0.7.*"
+        "sallycms/composer-installer": "~1.1",
+        "sallycms/sallycms": ">=0.7,<0.9"
     },
     "autoload": {
         "psr-0": {
@@ -20,11 +20,11 @@
     },
     "extra": {
         "sallycms": {
-            "version": "1.7-dev",
+            "version": "1.7.x-dev",
             "imex-ignore": true
         },
         "branch-alias": {
-            "dev-default": "1.7.x-dev"
+            "dev-default": "1.x-dev"
         }
     }
 }

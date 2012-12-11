@@ -20,6 +20,7 @@
 					<input type="hidden" name="category_id" value="<?php echo $categoryID ?>" />
 					<input type="hidden" name="article_id" value="<?php echo $articleID ?>" />
 					<input type="hidden" name="clang" value="<?php echo $clang ?>" />
+					<?php print $hasCsrf ? sly_Util_Csrf::renderInputTag() : '' ?>
 
 					<div class="fleft">
 						<label for="besearch-article-id"><?php echo t('id') ?>:</label>

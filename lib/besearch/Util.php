@@ -63,7 +63,7 @@ abstract class besearch_Util {
 	}
 
 	public static function mediaToolbar(array $params) {
-		$mediumName = sly_post('be_search_medium_name', 'string');
+		$mediumName = sly_request('be_search_medium_name', 'string'); // POST in <=0.7, GET in >=0.8
 		$form       = $params['subject'];
 		$input      = new sly_Form_Input_Text('be_search_medium_name', '', $mediumName);
 		$button     = new sly_Form_Input_Button('submit', 'be_search_submit', t('search'));
@@ -76,7 +76,7 @@ abstract class besearch_Util {
 
 	public static function mediaQuery($params) {
 		$where      = $params['subject'];
-		$mediumName = sly_post('be_search_medium_name', 'string');
+		$mediumName = sly_request('be_search_medium_name', 'string'); // POST in <=0.7, GET in >=0.8
 
 		if (mb_strlen($mediumName) === 0) {
 			return $where;
@@ -122,6 +122,7 @@ abstract class besearch_Util {
 		$quickNavi->setSelected($categoryID);
 
 		ob_start();
+		$hasCsrf = class_exists('sly_Util_Csrf');
 		include BESEARCH_PATH.'views/toolbar.phtml';
 		$bar = ob_get_clean();
 

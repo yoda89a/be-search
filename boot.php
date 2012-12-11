@@ -8,12 +8,6 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-/**
- * Backend Search Addon
- *
- * @author zozi@webvariants.de
- */
-
 if (!sly_Core::isBackend()) return;
 define('BESEARCH_PATH', rtrim(dirname(__FILE__), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR);
 

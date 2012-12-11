@@ -15,7 +15,8 @@
     },
     "autoload": {
         "psr-0": {
-            "": "lib/"
+            "besearch_": "lib/",
+            "sly_Controller_": "lib/"
         }
     },
     "extra": {
